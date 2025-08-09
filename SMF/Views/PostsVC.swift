@@ -1,15 +1,8 @@
-//
-//  ViewController.swift
-//  SMF
-//
-//  Created by Igor Solodyankin on 08.08.2025.
-//
-
 import UIKit
 
-final class ViewController: UIViewController {
+final class PostsVC: UIViewController {
     
-    var posts: [Post] = []
+    private var viewModel = PostsViewModel()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -21,22 +14,30 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        title = title
         
-        NetworkServices.shared.fetchData { [weak self] result in
-            switch result {
-            case .success(let posts):
-                self?.posts = posts
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
+        setupView()
         setupSubviews()
         setupConstraints()
+        bindViewModel()
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+        title = title
+    }
+    
+    private func bindViewModel() {
+        viewModel.onPostsUpdate = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        
+        viewModel.onError = { [weak self] error in
+            let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ок", style: .default))
+            self?.present(alert, animated: true)
+        }
+        
+        viewModel.fetchPosts()
     }
 
     private func setupSubviews() {
@@ -53,16 +54,16 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension PostsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        posts.count
+        viewModel.numberOfPosts()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.id, for: indexPath) as? PostCell else {
             return UITableViewCell()
         }
-        cell.configure(post: posts[indexPath.row])
+        cell.configure(post: viewModel.posts[indexPath.row])
         return cell
     }
 }

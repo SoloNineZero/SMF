@@ -17,7 +17,7 @@ final class MainTabBarController: UITabBarController {
     private func setupTabBar() {
         viewControllers = [
             createTabBarController(
-                viewController: ViewController(),
+                viewController: PostsVC(),
                 title: "Лента",
                 icon: "plus"
             ),
