@@ -8,11 +8,14 @@
 import UIKit
 
 final class ViewController: UIViewController {
+    
+    var posts: [Post] = []
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
+        tableView.register(PostCell.self, forCellReuseIdentifier: PostCell.id)
         return tableView
     }()
     
@@ -21,6 +24,17 @@ final class ViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = title
         
+        NetworkServices.shared.fetchData { [weak self] result in
+            switch result {
+            case .success(let posts):
+                self?.posts = posts
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
         setupSubviews()
         setupConstraints()
     }
@@ -41,11 +55,15 @@ final class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.id, for: indexPath) as? PostCell else {
+            return UITableViewCell()
+        }
+        cell.configure(post: posts[indexPath.row])
+        return cell
     }
 }
 
