@@ -30,14 +30,14 @@ final class PostsVC: UIViewController {
         viewModel.onPostsUpdate = { [weak self] in
             self?.tableView.reloadData()
         }
-        
+    
         viewModel.onError = { [weak self] error in
             let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ок", style: .default))
             self?.present(alert, animated: true)
         }
         
-        viewModel.fetchPosts()
+        viewModel.loadData()
     }
 
     private func setupSubviews() {
@@ -63,7 +63,7 @@ extension PostsVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.id, for: indexPath) as? PostCell else {
             return UITableViewCell()
         }
-        cell.configure(post: viewModel.posts[indexPath.row])
+        cell.configure(post: viewModel.postsWithAuthor[indexPath.row])
         return cell
     }
 }

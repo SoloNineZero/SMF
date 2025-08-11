@@ -6,18 +6,15 @@ final class NetworkServices {
     static let shared = NetworkServices()
     
     private init (){}
-    
-    private let postAPI = "https://jsonplaceholder.typicode.com/posts"
-    
-    func fetchData(completion: @escaping (Result<[Post], Error>) -> Void) {
-        AF.request(postAPI).validate().responseDecodable(of: [Post].self) { response in
-            switch response.result {
-            case .success(let posts):
-                completion(.success(posts))
-            case .failure(let error):
-                completion(.failure(error))
+        
+    func fetchData<T: Decodable>(from url: String, completion: @escaping (Result<T, Error>) -> Void) {
+        AF.request(url).validate().responseDecodable(of: T.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
-            
-        }
     }
 }

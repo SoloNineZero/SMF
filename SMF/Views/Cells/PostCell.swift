@@ -20,6 +20,14 @@ final class PostCell: UITableViewCell {
         return label
     }()
     
+    private lazy var authorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.textAlignment = .right
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupSunbviews()
@@ -30,14 +38,16 @@ final class PostCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(post: Post) {
-        titleLabel.text = post.title
-        bodyLabel.text = post.body
+    func configure(post: PostWithAuthor) {
+        titleLabel.text = post.post.title
+        bodyLabel.text = post.post.body
+        authorLabel.text = post.author?.name
     }
     
     private func setupSunbviews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(bodyLabel)
+        contentView.addSubview(authorLabel)
     }
     
     private func setupConstraints() {
@@ -49,7 +59,11 @@ final class PostCell: UITableViewCell {
             bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
             bodyLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             bodyLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
-            bodyLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            
+            authorLabel.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 12),
+            authorLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+            authorLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
+            authorLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
     }
 }
