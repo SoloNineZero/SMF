@@ -8,6 +8,7 @@ final class PostsVC: UIViewController {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(PostCell.self, forCellReuseIdentifier: PostCell.id)
         return tableView
     }()
@@ -54,6 +55,7 @@ final class PostsVC: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension PostsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfPosts()
@@ -68,3 +70,9 @@ extension PostsVC: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate
+extension PostsVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
