@@ -19,7 +19,7 @@ final class MainTabBarController: UITabBarController {
             createTabBarController(
                 viewController: PostsVC(),
                 title: "Лента",
-                icon: "plus"
+                icon: "ellipsis.message"
             ),
             createTabBarController(
                 viewController: ViewController2(),

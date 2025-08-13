@@ -7,14 +7,8 @@ final class PostsViewModel {
     var onError: ((Error) -> Void)?
     
     private(set) var postsWithAuthor: [PostWithAuthor] = []
-    
-    private(set) var posts: [Post] = [] {
-        didSet { updatePostsWithAuthor() }
-    }
-    
-    private(set) var users: [User] = [] {
-        didSet { updatePostsWithAuthor() }
-    }
+    private var posts: [Post] = []
+    private var users: [User] = []
     
     func numberOfPosts() -> Int {
         postsWithAuthor.count

@@ -35,6 +35,13 @@ final class PostCell: UITableViewCell {
         return label
     }()
     
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        return button
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupSunbviews()
@@ -66,6 +73,7 @@ final class PostCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(bodyLabel)
         contentView.addSubview(authorLabel)
+        contentView.addSubview(favoriteButton)
     }
     
     private func setupConstraints() {
@@ -79,6 +87,11 @@ final class PostCell: UITableViewCell {
             authorLabel.leftAnchor.constraint(equalTo: avatarUIImageView.rightAnchor, constant: 16),
             authorLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             
+            favoriteButton.centerYAnchor.constraint(equalTo: avatarUIImageView.centerYAnchor),
+            favoriteButton.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
+            
             titleLabel.topAnchor.constraint(equalTo: avatarUIImageView.bottomAnchor, constant: 12),
             titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
@@ -90,6 +103,7 @@ final class PostCell: UITableViewCell {
         ])
     }
     
+    /// Настройка внешнего вида ячейки по тапу на неё.
     private func setupSelectionView() {
         let selectedView = UIView()
         selectedView.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.1)
