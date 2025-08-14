@@ -10,6 +10,7 @@ final class PostsVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PostCell.self, forCellReuseIdentifier: PostCell.id)
+        tableView.register(ShimmerPostCell.self, forCellReuseIdentifier: ShimmerPostCell.id)
         return tableView
     }()
     
@@ -58,15 +59,23 @@ final class PostsVC: UIViewController {
 // MARK: - UITableViewDataSource
 extension PostsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.numberOfPosts()
+        viewModel.postsWithAuthor.isEmpty ? 5 : viewModel.numberOfPosts()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.id, for: indexPath) as? PostCell else {
-            return UITableViewCell()
+        if viewModel.postsWithAuthor.isEmpty {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ShimmerPostCell.id, for: indexPath) as? ShimmerPostCell else {
+                return UITableViewCell()
+            }
+            
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.id, for: indexPath) as? PostCell else {
+                return UITableViewCell()
+            }
+            cell.configure(post: viewModel.postsWithAuthor[indexPath.row])
+            return cell
         }
-        cell.configure(post: viewModel.postsWithAuthor[indexPath.row])
-        return cell
     }
 }
 
