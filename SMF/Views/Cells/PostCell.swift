@@ -3,6 +3,8 @@ import UIKit
 final class PostCell: UITableViewCell {
     
     static let id = "PostCell"
+    
+    var onFavoriteTapped: (() -> Void)?
 
     private lazy var avatarUIImageView: UIImageView = {
         let image = UIImageView()
@@ -39,6 +41,7 @@ final class PostCell: UITableViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
         return button
     }()
     
@@ -109,5 +112,12 @@ final class PostCell: UITableViewCell {
         selectedView.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.1)
         selectedView.layer.cornerRadius = 8
         selectedBackgroundView = selectedView
+    }
+}
+
+extension PostCell {
+    // MARK: - Action
+    @objc private func favoriteTapped() {
+        onFavoriteTapped?()
     }
 }

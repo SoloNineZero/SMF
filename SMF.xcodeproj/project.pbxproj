@@ -18,17 +18,30 @@
 		A84C0EEE2E46652E0045B235 /* Exceptions for "SMF" folder in "SMF" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				CoreData/Model.xcdatamodeld,
 				Info.plist,
+				Model.xcdatamodeld,
 			);
 			target = A84C0ED82E46652C0045B235 /* SMF */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		A8BA81E12E51086000F05BCB /* Exceptions for "SMF" folder in "Copy Bundle Resources" phase from "SMF" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = A84C0ED72E46652C0045B235 /* Resources */;
+			membershipExceptions = (
+				CoreData/Model.xcdatamodeld,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A84C0EDB2E46652C0045B235 /* SMF */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A84C0EEE2E46652E0045B235 /* Exceptions for "SMF" folder in "SMF" target */,
+				A8BA81E12E51086000F05BCB /* Exceptions for "SMF" folder in "Copy Bundle Resources" phase from "SMF" target */,
 			);
 			path = SMF;
 			sourceTree = "<group>";

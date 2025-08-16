@@ -22,7 +22,7 @@ final class MainTabBarController: UITabBarController {
                 icon: "ellipsis.message"
             ),
             createTabBarController(
-                viewController: ViewController2(),
+                viewController: FavoriteVC(),
                 title: "Избранное",
                 icon: "minus"
             )

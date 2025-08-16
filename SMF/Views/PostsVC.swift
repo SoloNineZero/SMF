@@ -73,7 +73,13 @@ extension PostsVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.id, for: indexPath) as? PostCell else {
                 return UITableViewCell()
             }
-            cell.configure(post: viewModel.postsWithAuthor[indexPath.row])
+            let post = viewModel.postsWithAuthor[indexPath.row]
+            cell.configure(post: post)
+            cell.onFavoriteTapped = { [weak self] in
+                guard self != nil else { return }
+                
+                CoreDataService.shared.savePost(post)
+            }
             return cell
         }
     }

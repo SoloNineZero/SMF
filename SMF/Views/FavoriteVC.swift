@@ -1,18 +1,15 @@
-//
-//  ViewController.swift
-//  SMF
-//
-//  Created by Igor Solodyankin on 08.08.2025.
-//
-
 import UIKit
+import CoreData
 
-final class ViewController2: UIViewController {
-
+final class FavoriteVC: UIViewController {
+    
+    private var posts: [CDPost] = []
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return tableView
     }()
     
@@ -23,6 +20,7 @@ final class ViewController2: UIViewController {
         
         setupSubviews()
         setupConstraints()
+        loadPosts()
     }
 
     private func setupSubviews() {
@@ -37,15 +35,29 @@ final class ViewController2: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    private func loadPosts() {
+        let fetchRequest: NSFetchRequest<CDPost> = CDPost.fetchRequest()
+        do {
+            posts = try CoreDataService.shared.context.fetch(fetchRequest)
+            tableView.reloadData()
+        } catch {
+            print("Ошибка загрузки постов: \(error)")
+        }
+    }
 }
 
-extension ViewController2: UITableViewDataSource {
+extension FavoriteVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let post = posts[indexPath.row]
+        cell.textLabel?.text = post.title
+        cell.detailTextLabel?.text = post.author
+        return cell
     }
 }
 
