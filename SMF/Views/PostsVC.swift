@@ -78,7 +78,7 @@ extension PostsVC: UITableViewDataSource {
             cell.onFavoriteTapped = { [weak self] in
                 guard self != nil else { return }
                 
-                CoreDataService.shared.savePost(post)
+                CoreDataService.shared.toggleFavoite(postWithAuthor: post)
             }
             return cell
         }

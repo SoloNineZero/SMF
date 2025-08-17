@@ -71,6 +71,12 @@ final class PostCell: UITableViewCell {
         avatarUIImageView.image = UIImage(data: data)
     }
     
+    func configute(post: CDPost) {
+        titleLabel.text = post.title
+        bodyLabel.text = post.body
+        authorLabel.text = post.author
+    }
+    
     private func setupSunbviews() {
         contentView.addSubview(avatarUIImageView)
         contentView.addSubview(titleLabel)

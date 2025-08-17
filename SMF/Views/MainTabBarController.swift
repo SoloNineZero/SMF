@@ -24,7 +24,7 @@ final class MainTabBarController: UITabBarController {
             createTabBarController(
                 viewController: FavoriteVC(),
                 title: "Избранное",
-                icon: "minus"
+                icon: "heart.text.clipboard"
             )
         ]
     }

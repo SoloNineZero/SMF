@@ -3,13 +3,13 @@ import CoreData
 
 final class FavoriteVC: UIViewController {
     
-    private var posts: [CDPost] = []
+    private var viewModel = FavoritePostsViewModel()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(PostCell.self, forCellReuseIdentifier: PostCell.id)
         return tableView
     }()
     
@@ -20,7 +20,14 @@ final class FavoriteVC: UIViewController {
         
         setupSubviews()
         setupConstraints()
-        loadPosts()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        DispatchQueue.main.async {
+            self.viewModel.loadPosts()
+            self.tableView.reloadData()
+        }
     }
 
     private func setupSubviews() {
@@ -35,28 +42,26 @@ final class FavoriteVC: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
-    private func loadPosts() {
-        let fetchRequest: NSFetchRequest<CDPost> = CDPost.fetchRequest()
-        do {
-            posts = try CoreDataService.shared.context.fetch(fetchRequest)
-            tableView.reloadData()
-        } catch {
-            print("Ошибка загрузки постов: \(error)")
-        }
-    }
 }
 
 extension FavoriteVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        posts.count
+        viewModel.numberOfPosts()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let post = posts[indexPath.row]
-        cell.textLabel?.text = post.title
-        cell.detailTextLabel?.text = post.author
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.id, for: indexPath) as? PostCell else {
+            return UITableViewCell()
+        }
+        let post = viewModel.posts[indexPath.row]
+        cell.configute(post: post)
+        cell.onFavoriteTapped = { [weak self] in
+            guard self != nil else { return }
+            
+            CoreDataService.shared.deletePost(post)
+            self?.viewModel.loadPosts()
+            self?.tableView.reloadData()
+        }
         return cell
     }
 }
