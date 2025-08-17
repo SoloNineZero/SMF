@@ -19,6 +19,10 @@ final class PostsViewModel {
         fetchUsers()
     }
     
+    func isFavorite(post: PostWithAuthor) -> Bool {
+        CoreDataService.shared.isPostSaved(id: post.post.id)
+    }
+    
     private func fetchPosts() {
         NetworkService.shared.fetchData(from: APIEndpoint.posts) { [weak self] (result: Result<[Post], Error>) in
             switch result {

@@ -62,19 +62,25 @@ final class PostCell: UITableViewCell {
         avatarUIImageView.layer.cornerRadius = avatarUIImageView.bounds.width / 2
     }
     
-    func configure(post: PostWithAuthor) {
+    func configure(post: PostWithAuthor, isFavorite: Bool) {
         titleLabel.text = post.post.title
         bodyLabel.text = post.post.body
         authorLabel.text = post.author?.name
         
         guard let data = post.author?.avatar else { return }
         avatarUIImageView.image = UIImage(data: data)
+        
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
-    func configute(post: CDPost) {
+    func configute(post: CDPost, isFavorite: Bool) {
         titleLabel.text = post.title
         bodyLabel.text = post.body
         authorLabel.text = post.author
+        
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
     private func setupSunbviews() {

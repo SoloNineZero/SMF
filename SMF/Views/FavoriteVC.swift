@@ -20,14 +20,17 @@ final class FavoriteVC: UIViewController {
         
         setupSubviews()
         setupConstraints()
+        
+        viewModel.onPostsUpdate = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        DispatchQueue.main.async {
-            self.viewModel.loadPosts()
-            self.tableView.reloadData()
-        }
+        viewModel.loadPosts()
     }
 
     private func setupSubviews() {
@@ -53,15 +56,15 @@ extension FavoriteVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.id, for: indexPath) as? PostCell else {
             return UITableViewCell()
         }
+        
         let post = viewModel.posts[indexPath.row]
-        cell.configute(post: post)
+        let isFavorite = viewModel.isFavorite(post: post)
+        cell.configute(post: post, isFavorite: isFavorite)
+
         cell.onFavoriteTapped = { [weak self] in
-            guard self != nil else { return }
-            
-            CoreDataService.shared.deletePost(post)
-            self?.viewModel.loadPosts()
-            self?.tableView.reloadData()
+            self?.viewModel.toggleFavorite(post: post)
         }
+        
         return cell
     }
 }

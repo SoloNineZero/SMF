@@ -47,7 +47,15 @@ extension CoreDataService {
         saveContext()
     }
     
-    func toggleFavoite(postWithAuthor: PostWithAuthor) {
+    // Пост сохранён
+    func isPostSaved(id: Int) -> Bool {
+        let request: NSFetchRequest<CDPost> = CDPost.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %d", id)
+        do { return try context.count(for: request) > 0 }
+        catch { return false }
+    }
+    
+    func toggleFavorite(postWithAuthor: PostWithAuthor) {
         let postId = postWithAuthor.post.id
         let request: NSFetchRequest<CDPost> = CDPost.fetchRequest()
         request.predicate = NSPredicate(format: "id == %d", postId)

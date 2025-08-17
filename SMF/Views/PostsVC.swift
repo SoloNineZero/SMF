@@ -74,11 +74,12 @@ extension PostsVC: UITableViewDataSource {
                 return UITableViewCell()
             }
             let post = viewModel.postsWithAuthor[indexPath.row]
-            cell.configure(post: post)
+            let isFavorite = viewModel.isFavorite(post: post)
+            
+            cell.configure(post: post, isFavorite: isFavorite)
             cell.onFavoriteTapped = { [weak self] in
-                guard self != nil else { return }
-                
-                CoreDataService.shared.toggleFavoite(postWithAuthor: post)
+                CoreDataService.shared.toggleFavorite(postWithAuthor: post)
+                self?.tableView.reloadRows(at: [indexPath], with: .automatic)
             }
             return cell
         }
