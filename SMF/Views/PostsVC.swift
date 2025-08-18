@@ -21,7 +21,14 @@ final class PostsVC: UIViewController {
         setupSubviews()
         setupConstraints()
         bindViewModel()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(favoritesDidChange), name: .favoritesChanged, object: nil)
     }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     
     private func setupView() {
         view.backgroundColor = .systemBackground
@@ -78,8 +85,7 @@ extension PostsVC: UITableViewDataSource {
             
             cell.configure(post: post, isFavorite: isFavorite)
             cell.onFavoriteTapped = { [weak self] in
-                CoreDataService.shared.toggleFavorite(postWithAuthor: post)
-                self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+                self?.viewModel.toggleFavorite(post: post)
             }
             return cell
         }
@@ -90,5 +96,13 @@ extension PostsVC: UITableViewDataSource {
 extension PostsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - Actions
+extension PostsVC {
+    @objc
+    private func favoritesDidChange() {
+        tableView.reloadData()
     }
 }

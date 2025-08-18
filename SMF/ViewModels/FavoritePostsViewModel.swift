@@ -10,17 +10,13 @@ final class FavoritePostsViewModel {
     var onPostsUpdate: (() -> Void)?
     
     func loadPosts() {
-        let fetchRequest: NSFetchRequest<CDPost> = CDPost.fetchRequest()
-        do {
-            posts = try CoreDataService.shared.context.fetch(fetchRequest)
-            onPostsUpdate?()
-        } catch {
-            print("Ошибка загрузки постов: \(error)")
-        }
+        posts = CoreDataService.shared.fetchPosts()
     }
     
+    // Метод для добавления/удаления поста из избранного
     func toggleFavorite(post: CDPost) {
         CoreDataService.shared.deletePost(post)
+        NotificationCenter.default.post(name: .favoritesChanged, object: nil)
         loadPosts()
     }
     

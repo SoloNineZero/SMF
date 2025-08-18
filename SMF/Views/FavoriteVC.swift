@@ -47,6 +47,7 @@ final class FavoriteVC: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension FavoriteVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfPosts()

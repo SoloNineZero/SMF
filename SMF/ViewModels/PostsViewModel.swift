@@ -23,6 +23,11 @@ final class PostsViewModel {
         CoreDataService.shared.isPostSaved(id: post.post.id)
     }
     
+    func toggleFavorite(post: PostWithAuthor) {
+        CoreDataService.shared.toggleFavorite(post: post)
+        onPostsUpdate?()
+    }
+    
     private func fetchPosts() {
         NetworkService.shared.fetchData(from: APIEndpoint.posts) { [weak self] (result: Result<[Post], Error>) in
             switch result {
