@@ -17,4 +17,5 @@ extension CDPost {
     @NSManaged public var title: String
     @NSManaged public var body: String
     @NSManaged public var author: String
+    @NSManaged public var avatar: Data?
 }

@@ -79,6 +79,12 @@ final class PostCell: UITableViewCell {
         bodyLabel.text = post.body
         authorLabel.text = post.author
         
+        if let data = post.avatar {
+            avatarUIImageView.image = UIImage(data: data)
+        } else {
+            avatarUIImageView.image = UIImage(systemName: "person.circle")
+        }
+        
         let imageName = isFavorite ? "heart.fill" : "heart"
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
     }

@@ -37,6 +37,7 @@ final class CoreDataService {
         cdPost.title = post.post.title
         cdPost.body = post.post.body
         cdPost.author = post.author?.name ?? "Аноним"
+        cdPost.avatar = post.author?.avatar
         saveContext()
         
         NotificationCenter.default.post(name: .favoritesChanged, object: nil)
