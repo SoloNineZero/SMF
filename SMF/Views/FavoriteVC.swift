@@ -35,7 +35,6 @@ final class FavoriteVC: UIViewController {
 
     private func setupSubviews() {
         view.addSubview(tableView)
-        view.addSubview(backgroundTitle)
     }
     
     private func setupConstraints() {
