@@ -22,5 +22,8 @@
 
 | Лента (загрузка) | Лента (с данными) | Избранное (с данными) |
 |-------------------|------------------|-------------------|
-| <img width="320" height="2868" alt="Simulator Screenshot - iPhone 16 Pro Max - 2025-08-21 at 15 41 03" src="https://github.com/user-attachments/assets/120ffec7-9403-4951-b9b7-a1236ae14af3" /> | <img width="320" height="2868" alt="Simulator Screenshot - iPhone 16 Pro Max - 2025-08-21 at 15 41 14" src="https://github.com/user-attachments/assets/b59cc7c4-5bfd-43e7-877a-03b507b70024" /> | <img width="320" height="2868" alt="Simulator Screenshot - iPhone 16 Pro Max - 2025-08-21 at 15 41 28" src="https://github.com/user-attachments/assets/ccf65a85-380f-4d7a-a898-9196a3a8f0ae" /> |
+| <img width="320" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-09-19 at 12 22 27" src="https://github.com/user-attachments/assets/43036298-0c09-4816-b0bd-6ef4cd3047f6" /> | <img width="320" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-09-19 at 12 22 38" src="https://github.com/user-attachments/assets/9ddbf042-80f0-414b-9e90-243515a264a7" /> | <img width="320" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-09-19 at 12 23 02" src="https://github.com/user-attachments/assets/782c513f-8324-4e31-8eef-0d273a40e298" /> |
+
+
+
 
